@@ -1,0 +1,57 @@
+[gd_scene load_steps=7 format=3 uid="uid://dse11trgd1rlv"]
+
+[ext_resource type="Texture2D" uid="uid://doupivtd08017" path="res://icon.svg" id="1_p3h6o"]
+[ext_resource type="Script" path="res://Scripts/player_script.gd" id="1_ua2fh"]
+[ext_resource type="AudioStream" uid="uid://cr711w8ac0rjo" path="res://Sounds/jump sound.wav" id="3_57x2n"]
+[ext_resource type="AudioStream" uid="uid://buuv6pa0w6wm5" path="res://Sounds/land sound.wav" id="4_1ok86"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_weaxp"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5ckeh"]
+size = Vector2(126, 6)
+
+[node name="player" type="CharacterBody2D" groups=["player"]]
+script = ExtResource("1_ua2fh")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+position = Vector2(0, -64)
+texture = ExtResource("1_p3h6o")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -64)
+scale = Vector2(6.37257, 6.37257)
+shape = SubResource("RectangleShape2D_weaxp")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(0, -64)
+zoom = Vector2(0.5, 0.5)
+limit_smoothed = true
+position_smoothing_enabled = true
+position_smoothing_speed = 7.0
+drag_vertical_enabled = true
+editor_draw_drag_margin = true
+
+[node name="Sounds" type="Node2D" parent="."]
+position = Vector2(0, -64)
+
+[node name="JumpSound" type="AudioStreamPlayer" parent="Sounds"]
+stream = ExtResource("3_57x2n")
+pitch_scale = 0.75
+bus = &"SFX volume"
+
+[node name="LandSound" type="AudioStreamPlayer" parent="Sounds"]
+stream = ExtResource("4_1ok86")
+bus = &"SFX volume"
+
+[node name="ground check" type="Area2D" parent="."]
+position = Vector2(0, -64)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ground check"]
+position = Vector2(0, 62)
+shape = SubResource("RectangleShape2D_5ckeh")
+debug_color = Color(0.123482, 0.647029, 0, 0.42)
+
+[node name="FlipScaleOrigin" type="Node2D" parent="."]
+
+[connection signal="body_entered" from="ground check" to="." method="_on_ground_check_body_entered"]
+[connection signal="body_exited" from="ground check" to="." method="_on_ground_check_body_exited"]
