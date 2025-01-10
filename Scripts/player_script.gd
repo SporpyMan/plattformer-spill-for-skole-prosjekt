@@ -49,15 +49,15 @@ func _process(delta: float) -> void:
 	scale.y = lerp(scale.y , 1.0 , .1)
 		
 	# --- Print Debug Statements --- #
-	#print(isJumping)
-	#print(wasAirborne)
-	#print(sprite.scale)
-	#print(gravityUp)
-	#print(jmp_count)
-	#print(current_state)
+	# print(isJumping)
+	# print(wasAirborne)
+	# print(sprite.scale)
+	# print(gravityUp)
+	# print(jmp_count)
+	# print(current_state)
 	print(jump_buffer_timer.time_left)
 
-	
+
 func Movement():
 	var input_dir = Input.get_axis("left" , "right")
 		
@@ -96,16 +96,14 @@ func Jump():
 			velocity.y *= 0.3
 			isJumping = false
 
-	while (!is_on_floor()):
-		if (Input.is_action_just_pressed("jump")):
-			jump_buffer_timer.start()
+	JumpBuffer()
 		
 		
 func DEBUG_Exit():
 	if (Input.is_action_just_pressed("[debug] EXIT")): # '[debug] EXIT' er 'esc' :]
 		get_tree().quit()
 		
-		
+		 
 func ChangeGravity():
 	if (Input.is_action_just_pressed('ChangeGrav') and !is_on_floor()):
 		gravityUp = !gravityUp
@@ -114,7 +112,20 @@ func ChangeGravity():
 
 
 func JumpBuffer():
-	pass
+	if (!is_on_floor()):
+		if (velocity.y > 0):
+			if (Input.is_action_just_pressed("jump") && jmp_count <= 0):
+				if (!isBuffering):
+					jump_buffer_timer.start()
+
+	if (jump_buffer_timer.time_left == 0):
+		isBuffering = false
+	else:
+		isBuffering = true
+
+	if (isBuffering == true && is_on_floor()):
+		velocity.y = -jmp_str
+		jump_buffer_timer.stop()
 		
 enum {
 	IDLE,

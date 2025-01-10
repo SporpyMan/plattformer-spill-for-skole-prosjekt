@@ -52,6 +52,9 @@ shape = SubResource("RectangleShape2D_5ckeh")
 debug_color = Color(0.123482, 0.647029, 0, 0.42)
 
 [node name="JumpBufferTimer" type="Timer" parent="."]
+process_callback = 0
+wait_time = 0.25
+one_shot = true
 
 [connection signal="body_entered" from="ground check" to="." method="_on_ground_check_body_entered"]
 [connection signal="body_exited" from="ground check" to="." method="_on_ground_check_body_exited"]

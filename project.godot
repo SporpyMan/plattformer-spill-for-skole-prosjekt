@@ -21,7 +21,6 @@ buses/default_bus_layout="res://BUS/SFX volume.tres"
 
 [display]
 
-window/size/mode=2
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 
