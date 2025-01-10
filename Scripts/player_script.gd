@@ -104,13 +104,6 @@ func Jump():
 func DEBUG_Exit():
 	if (Input.is_action_just_pressed("[debug] EXIT")): # '[debug] EXIT' er 'esc' :]
 		get_tree().quit()
-		
-		 
-func ChangeGravity():
-	if (Input.is_action_just_pressed('ChangeGrav') and !is_on_floor()):
-		gravityUp = !gravityUp
-		up_direction *= -1
-		velocity.y *= .5
 
 
 func JumpBuffer():
