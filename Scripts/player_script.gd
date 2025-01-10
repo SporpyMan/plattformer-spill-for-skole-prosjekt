@@ -55,14 +55,16 @@ func _process(delta: float) -> void:
 	# print(gravityUp)
 	# print(jmp_count)
 	# print(current_state)
-	print(jump_buffer_timer.time_left)
+	# print(jump_buffer_timer.time_left)
 
 
 func Movement():
 	var input_dir = Input.get_axis("left" , "right")
 		
+	input_dir = Vector2(input_dir , 0).normalized() # omgjer om input_dir til Vector2
+
 	if (input_dir):
-		velocity.x = input_dir * spd
+		velocity.x = input_dir.x * spd
 	else:
 		velocity.x = move_toward(velocity.x , 0 , spd * 0.03)
 		
@@ -125,6 +127,7 @@ func JumpBuffer():
 
 	if (isBuffering == true && is_on_floor()):
 		velocity.y = -jmp_str
+		jump_sound.play()
 		jump_buffer_timer.stop()
 		
 enum {
