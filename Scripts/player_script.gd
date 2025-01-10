@@ -24,7 +24,6 @@ var canJump : bool = false
 var isJumping : bool  = false 
 var isInAir : bool = true
 var gravityUp : bool = false
-var isBuffering : bool = false
 
 @onready var sprite: Sprite2D = $Sprite
 
