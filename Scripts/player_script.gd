@@ -24,19 +24,20 @@ var canJump : bool = false
 var isJumping : bool  = false 
 var isInAir : bool = true
 var gravityUp : bool = false
+var isBuffering : bool = false
 
 @onready var sprite: Sprite2D = $Sprite
 
 @onready var jump_sound: AudioStreamPlayer = $Sounds/JumpSound
 @onready var land_sound: AudioStreamPlayer = $Sounds/LandSound
 
+@onready var jump_buffer_timer : Timer = $JumpBufferTimer
+
 func _ready() -> void:
 	PlayerFlagPoint = position
 
 func _process(delta: float) -> void:
-	
 	Gravity(delta)
-	#ChangeGravity()
 	Jump()
 	Movement()
 	HandleStates()
@@ -54,8 +55,9 @@ func _process(delta: float) -> void:
 	#print(gravityUp)
 	#print(jmp_count)
 	#print(current_state)
-		
-		
+	print(jump_buffer_timer.time_left)
+
+	
 func Movement():
 	var input_dir = Input.get_axis("left" , "right")
 		
@@ -93,6 +95,10 @@ func Jump():
 		if (canJump == false && isJumping == true && velocity.y < 0):
 			velocity.y *= 0.3
 			isJumping = false
+
+	while (!is_on_floor()):
+		if (Input.is_action_just_pressed("jump")):
+			jump_buffer_timer.start()
 		
 		
 func DEBUG_Exit():
@@ -105,7 +111,10 @@ func ChangeGravity():
 		gravityUp = !gravityUp
 		up_direction *= -1
 		velocity.y *= .5
-		
+
+
+func JumpBuffer():
+	pass
 		
 enum {
 	IDLE,
